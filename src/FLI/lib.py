@@ -326,7 +326,7 @@ _API_FUNCTION_PROTOTYPES = [
                           c_char_p,
                           c_size_t]
     ),                                                      #(flidev_t dev, long filter, char *name, size_t len);
-    ("FLISetTDI", [flidev_t, flitdirate_t, flitdiflags_t]), #(flidev_t dev, flitdirate_t tdi_rate, flitdiflags_t flags);
+    #("FLISetTDI", [flidev_t, flitdirate_t, flitdiflags_t]), #(flidev_t dev, flitdirate_t tdi_rate, flitdiflags_t flags);
     #FIXME ("FLIGetActiveWheel", [flidev_t, c_long_p]),            #(flidev_t dev, long *wheel);
 ]
 ###############################################################################

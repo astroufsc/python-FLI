@@ -53,6 +53,7 @@ class USBDevice(object):
         devs = []
         #process list only if it is not NULL
         if tmplist:
+            i = 0
             while tmplist[i]: #process members only if they are not NULL
                 dev_name, model = tmplist[i].split(";")
                 devs.append(cls(dev_name=dev_name,model=model))   #create device objects

@@ -197,6 +197,7 @@ class USBCamera(USBDevice):
         """ Fetch the image data for the last exposure.
             Returns a numpy.ndarray object.
         """
+        time.sleep(0.5) # wait for shutter to close.
         row_width, img_rows, img_size  = self.get_image_size()
         #use bit depth to determine array data type
         img_array_dtype = None
