@@ -27,7 +27,8 @@ from lib import FLILibrary, FLIError, FLIWarning, flidomain_t, flidev_t,\
                 fliframe_t, FLIDOMAIN_USB, FLIDEVICE_CAMERA,\
                 FLI_FRAME_TYPE_NORMAL, FLI_FRAME_TYPE_DARK,\
                 FLI_FRAME_TYPE_RBI_FLUSH, FLI_MODE_8BIT, FLI_MODE_16BIT,\
-                FLI_TEMPERATURE_CCD, FLI_TEMPERATURE_BASE
+                FLI_TEMPERATURE_CCD, FLI_TEMPERATURE_BASE,\
+                FLI_FAN_SPEED_ON, FLI_FAN_SPEED_OFF
 
 from device import USBDevice
 ###############################################################################
@@ -38,14 +39,14 @@ class USBCamera(USBDevice):
     #load the DLL
     _libfli = FLILibrary.getDll(debug=DEBUG)
     _domain = flidomain_t(FLIDOMAIN_USB | FLIDEVICE_CAMERA)
-    
+
     def __init__(self, dev_name, model, bitdepth = DEFAULT_BITDEPTH):
         USBDevice.__init__(self, dev_name = dev_name, model = model)
         self.hbin  = 1
         self.vbin  = 1
         self.bitdepth = bitdepth
 
-   
+
     def get_info(self):
         info = OrderedDict()        
         tmp1, tmp2, tmp3, tmp4   = (c_long(),c_long(),c_long(),c_long())
@@ -98,6 +99,18 @@ class USBCamera(USBDevice):
         if not(0 <= num <= 16):
             raise ValueError("must have 0 <= num <= 16")
         self._libfli.FLISetNFlushes(self._dev, c_long(num))
+
+    def start_fan(self):
+        """
+        Start camera fan
+        """
+        self._libfli.FLISetFanSpeed(self._dev, c_long(FLI_FAN_SPEED_ON))
+
+    def stop_fan(self):
+        """
+        Stop camera fan
+        """
+        self._libfli.FLISetFanSpeed(self._dev, c_long(FLI_FAN_SPEED_OFF))
 
     def set_temperature(self, T):
         "set the camera's temperature target in degrees Celcius"
